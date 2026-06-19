@@ -6,14 +6,25 @@ import { useState, useRef, useEffect } from "react";
 
 export default function Hero() {
   const [isPlaying, setIsPlaying] = useState(true);
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
+    // Sync state with actual video element in case browser autoplay policies block it
     if (videoRef.current) {
       videoRef.current.volume = 1.0; // Force maximum system volume
       setIsPlaying(!videoRef.current.paused);
       setIsMuted(videoRef.current.muted);
+      
+      // Attempt to play unmuted. If browser blocks it, catch the error.
+      const playPromise = videoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          // Autoplay was prevented by browser policy because it's unmuted
+          console.log("Autoplay unmuted blocked by browser:", error);
+          setIsPlaying(false); // Update state to show it is paused
+        });
+      }
     }
   }, []);
 
@@ -35,15 +46,6 @@ export default function Hero() {
     if (videoRef.current) {
       videoRef.current.muted = !videoRef.current.muted;
       setIsMuted(videoRef.current.muted);
-    }
-  };
-
-  const handleVideoEnded = () => {
-    setIsPlaying(false);
-    // Reset to the very first frame so the avatar rests on a "normal" neutral face
-    if (videoRef.current) {
-      videoRef.current.currentTime = 0;
-      videoRef.current.pause();
     }
   };
 
@@ -105,7 +107,7 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Right side content (Video with no margins/padding) */}
+      {/* Right side content (Video with no margins/padding, edge-to-edge) */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -117,10 +119,9 @@ export default function Hero() {
           src="/avatar-video.mp4"
           className="absolute inset-0 h-full w-full object-cover"
           autoPlay
-          muted
           playsInline
           controls={false}
-          onEnded={handleVideoEnded}
+          onEnded={() => setIsPlaying(false)}
           onPlay={() => setIsPlaying(true)}
           onPause={() => setIsPlaying(false)}
         >
