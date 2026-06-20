@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Award } from "lucide-react";
 
-const certs = [
+export const certs = [
   { name: "IBM Data Analytics with Python", link: "/certificates/IBM_Data_Analytics.pdf" },
   { name: "Deloitte Data Analytics Job Simulation", link: "/certificates/Deloitte_Data_Analytics.pdf" },
   { name: "Tata GenAI Powered Data Analytics", link: "/certificates/Tata_GenAI.pdf" },

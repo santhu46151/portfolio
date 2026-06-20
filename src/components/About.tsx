@@ -1,12 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { projects } from "./Projects";
+import { certs } from "./Certifications";
 
 export default function About() {
   const stats = [
-    { value: "10+", label: "Projects" },
-    { value: "5+", label: "Certifications" },
-    { value: "3+", label: "Dashboards" },
+    { value: projects.length.toString(), label: "Projects" },
+    { value: certs.length.toString(), label: "Certifications" },
+    { value: projects.length.toString(), label: "Dashboards" },
     { value: "1+", label: "Years Experience" },
   ];
 
