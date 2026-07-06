@@ -7,6 +7,7 @@ import { useState, useRef, useEffect } from "react";
 export default function Hero() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
+  const [progress, setProgress] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -46,6 +47,24 @@ export default function Hero() {
     if (videoRef.current) {
       videoRef.current.muted = !videoRef.current.muted;
       setIsMuted(videoRef.current.muted);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (videoRef.current) {
+      const current = videoRef.current.currentTime;
+      const duration = videoRef.current.duration;
+      if (duration > 0) {
+        setProgress((current / duration) * 100);
+      }
+    }
+  };
+
+  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const seekTo = parseFloat(e.target.value);
+    setProgress(seekTo);
+    if (videoRef.current) {
+      videoRef.current.currentTime = (videoRef.current.duration * seekTo) / 100;
     }
   };
 
@@ -124,6 +143,7 @@ export default function Hero() {
           onEnded={() => setIsPlaying(false)}
           onPlay={() => setIsPlaying(true)}
           onPause={() => setIsPlaying(false)}
+          onTimeUpdate={handleTimeUpdate}
         >
           Your browser does not support the video tag.
         </video>
@@ -132,26 +152,39 @@ export default function Hero() {
         <div className="hidden md:block absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#0a0a0a] to-transparent z-10" />
         
         {/* Video Controls Overlay */}
-        <div className="absolute bottom-10 left-1/2 flex -translate-x-1/2 items-center gap-6 rounded-full bg-black/60 px-8 py-3 backdrop-blur-md shadow-lg z-20 border border-white/10">
-          <button 
-            onClick={togglePlay} 
-            className="flex items-center gap-2 text-sm font-bold tracking-wider text-white hover:text-accent transition-colors"
-          >
-            {isPlaying ? (
-              <><Pause size={18} /> PAUSE</>
-            ) : (
-              <><Play size={18} /> PLAY</>
-            )}
-          </button>
+        <div className="absolute bottom-10 left-1/2 flex -translate-x-1/2 flex-col items-center gap-3 rounded-2xl bg-black/60 px-8 py-4 backdrop-blur-md shadow-lg z-20 border border-white/10 w-[90%] max-w-sm">
+          {/* Progress Bar */}
+          <input
+            type="range"
+            min="0"
+            max="100"
+            step="0.1"
+            value={progress}
+            onChange={handleSeek}
+            className="w-full h-1.5 bg-white/20 rounded-lg appearance-none cursor-pointer accent-primary hover:accent-accent transition-all"
+          />
           
-          <div className="h-4 w-px bg-white/30" />
-          
-          <button 
-            onClick={toggleMute} 
-            className="text-sm font-bold tracking-wider text-white hover:text-accent transition-colors"
-          >
-            {isMuted ? "🔇 UNMUTE" : "🔊 MUTE"}
-          </button>
+          <div className="flex items-center gap-6 mt-1">
+            <button 
+              onClick={togglePlay} 
+              className="flex items-center gap-2 text-sm font-bold tracking-wider text-white hover:text-accent transition-colors"
+            >
+              {isPlaying ? (
+                <><Pause size={18} /> PAUSE</>
+              ) : (
+                <><Play size={18} /> PLAY</>
+              )}
+            </button>
+            
+            <div className="h-4 w-px bg-white/30" />
+            
+            <button 
+              onClick={toggleMute} 
+              className="text-sm font-bold tracking-wider text-white hover:text-accent transition-colors"
+            >
+              {isMuted ? "🔇 UNMUTE" : "🔊 MUTE"}
+            </button>
+          </div>
         </div>
       </motion.div>
     </section>

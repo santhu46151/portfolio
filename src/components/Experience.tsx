@@ -40,7 +40,7 @@ export default function Experience() {
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-white">Data Analytics Intern</h3>
-                    <p className="text-sm text-accent font-medium">3Skills</p>
+                    <p className="text-sm text-accent font-medium">YHills <span className="text-gray-400">| Duration: 3 months</span></p>
                   </div>
                 </div>
                 

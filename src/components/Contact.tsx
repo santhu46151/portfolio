@@ -41,7 +41,7 @@ export default function Contact() {
             <FaGithub size={24} className="transition-transform group-hover:scale-110" />
           </a>
           <a
-            href="mailto:contact@santhoshkumar.tech"
+            href="mailto:santhoshkumarkalla91@gmail.com"
             className="group flex h-14 w-14 items-center justify-center rounded-full bg-white/10 text-white transition-all hover:-translate-y-2 hover:bg-accent hover:shadow-[0_0_20px_rgba(147,51,234,0.5)]"
             aria-label="Email"
           >
