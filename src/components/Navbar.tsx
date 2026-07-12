@@ -19,7 +19,7 @@ export default function Navbar() {
     { name: "Certificates", href: "#certifications" },
     { name: "Projects", href: "#projects" },
     { name: "Experiences", href: "#experience" },
-    { name: "Resume", href: "/resume.pdf" },
+    { name: "Contact us", href: "#contact" },
   ];
 
   return (
@@ -39,7 +39,6 @@ export default function Navbar() {
               <a
                 href={link.href}
                 className="transition-colors hover:text-white hover:drop-shadow-[0_0_10px_rgba(147,51,234,0.8)]"
-                {...(link.name === "Resume" ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               >
                 {link.name}
               </a>
