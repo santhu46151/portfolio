@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, ArrowRight, Play, Pause } from "lucide-react";
+import { Download, ArrowRight, Play, Pause } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
 export default function Hero() {
@@ -117,10 +117,12 @@ export default function Hero() {
               View Projects <ArrowRight size={20} />
             </a>
             <a
-              href="#contact"
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center gap-2 rounded-full border border-gray-600 bg-transparent px-6 py-3 font-medium text-white transition-all hover:border-gray-400 hover:bg-white/5"
             >
-              Contact Me <Mail size={20} />
+              Resume <Download size={20} />
             </a>
           </motion.div>
         </motion.div>
